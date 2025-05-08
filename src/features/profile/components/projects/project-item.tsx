@@ -1,11 +1,14 @@
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
-import { ChevronDownIcon, ExternalLink, FolderCodeIcon } from "lucide-react";
+import { ArrowUpRightIcon, ChevronDownIcon, CodeXmlIcon } from "lucide-react";
+import Image from "next/image";
+import { Accordion as AccordionPrimitive } from "radix-ui";
 import React from "react";
 
 import { Markdown } from "@/components/markdown";
 import { Tag } from "@/components/ui/tag";
 import { Prose } from "@/components/ui/typography";
+import { UTM_PARAMS } from "@/config/site";
 import { cn } from "@/lib/cn";
+import { addQueryParams } from "@/utils/url";
 
 import { Project } from "../../types/projects";
 
@@ -19,20 +22,37 @@ export function ProjectItem({
   return (
     <AccordionPrimitive.Item value={project.id} asChild>
       <div className={cn("flex items-center", className)}>
-        <FolderCodeIcon className="mx-4 size-5 shrink-0 text-muted-foreground" />
+        {project.logo ? (
+          <Image
+            src={project.logo}
+            alt={project.title}
+            width={32}
+            height={32}
+            quality={100}
+            className="mx-4 flex size-6 shrink-0"
+          />
+        ) : (
+          <div
+            className="mx-4 flex size-6 shrink-0 items-center justify-center rounded-lg border bg-zinc-50 text-muted-foreground shadow-xs dark:bg-zinc-900"
+            aria-hidden="true"
+          >
+            <CodeXmlIcon className="size-4" />
+          </div>
+        )}
 
-        <div className="flex-1 border-l border-grid">
+        <div className="flex-1 border-l border-dashed border-edge">
           <AccordionPrimitive.Trigger className="group/project flex w-full items-center justify-between gap-4 px-2 py-4 text-left select-none [&[data-state=open]_.lucide-chevron-down]:rotate-180">
             <div>
-              <h3 className="mb-1 flex items-center gap-2 font-heading text-lg leading-snug font-medium text-balance underline-offset-4 group-hover/project:underline">
+              <h3 className="mb-1 flex items-center gap-1 font-heading leading-snug font-medium text-balance decoration-ring underline-offset-4 group-hover/project:underline">
                 {project.title}
                 <a
-                  className="shrink-0 -translate-y-px text-muted-foreground"
-                  href={project.link}
+                  className="flex size-6 shrink-0 items-center justify-center text-muted-foreground"
+                  href={addQueryParams(project.link, UTM_PARAMS)}
                   target="_blank"
-                  rel="noreferrer"
+                  rel="noopener"
                 >
-                  <ExternalLink className="pointer-events-none size-4" />
+                  <ArrowUpRightIcon className="pointer-events-none size-4" />
+                  <span className="sr-only">Open</span>
                 </a>
               </h3>
 

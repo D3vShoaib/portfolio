@@ -28,15 +28,15 @@ export function CodeBlockCommand({
   }, [__pnpmCommand__, __yarnCommand__, __npmCommand__, __bunCommand__]);
 
   return (
-    <div className="relative overflow-hidden rounded-lg bg-zinc-950 dark:bg-zinc-900">
+    <div className="relative overflow-hidden rounded-lg bg-zinc-900">
       <Tabs
         className="gap-0"
         value={packageManager}
         onValueChange={(value) => {
-          setConfig({
-            ...config,
+          setConfig((prev) => ({
+            ...prev,
             packageManager: value as PackageManager,
-          });
+          }));
         }}
       >
         <div className="border-b border-zinc-800 px-4">

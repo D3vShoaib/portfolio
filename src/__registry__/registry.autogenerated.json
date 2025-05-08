@@ -1,7 +1,7 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "name": "chanhdai/ui",
-  "homepage": "https://chanhdai.com/ui",
+  "name": "ncdai",
+  "homepage": "https://chanhdai.com",
   "items": [
     {
       "name": "cn",
@@ -18,7 +18,7 @@
       ]
     },
     {
-      "name": "switch-theme",
+      "name": "theme-switcher",
       "type": "registry:component",
       "dependencies": [
         "next-themes",
@@ -30,7 +30,7 @@
       ],
       "files": [
         {
-          "path": "src/registry/switch-theme/switch-theme.tsx",
+          "path": "src/registry/theme-switcher/theme-switcher.tsx",
           "type": "registry:component"
         }
       ]
@@ -57,7 +57,9 @@
       "dependencies": [
         "motion"
       ],
-      "registryDependencies": [],
+      "registryDependencies": [
+        "https://chanhdai.com/r/cn.json"
+      ],
       "files": [
         {
           "path": "src/registry/apple-hello-effect/apple-hello-effect.tsx",

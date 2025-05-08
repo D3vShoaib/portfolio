@@ -9,9 +9,9 @@ import { MDX } from "@/components/mdx";
 import { Button } from "@/components/ui/button";
 import { Prose } from "@/components/ui/typography";
 import { SITE_INFO } from "@/config/site";
-import { Post } from "@/features/blog/types/posts";
-import { getAllPosts } from "@/features/blog/utils/content";
-import { USER } from "@/features/profile/data/user";
+import { getAllPosts } from "@/data/blog";
+import { USER } from "@/data/user";
+import { Post } from "@/types/blog";
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -101,10 +101,9 @@ export default async function Page({
 
   return (
     <>
-      <script
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteJsonLd) }}
-        type="application/ld+json"
-      />
+      <script type="application/ld+json">
+        {JSON.stringify(websiteJsonLd)}
+      </script>
 
       <div className="screen-line-after flex pb-4">
         <Button variant="link" className="px-2 text-base" asChild>

@@ -1,4 +1,4 @@
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
+import { Accordion as AccordionPrimitive } from "radix-ui";
 import React from "react";
 
 import { EXPERIENCES } from "../../data/experiences";
@@ -11,7 +11,7 @@ export function Experiences() {
   );
 
   return (
-    <Panel id="experience" className="scroll-mt-[4.75rem]">
+    <Panel id="experience" className="scroll-mt-22">
       <PanelHeader>
         <PanelTitle>Experience</PanelTitle>
       </PanelHeader>
@@ -21,7 +21,7 @@ export function Experiences() {
         defaultValue={defaultValue}
         asChild
       >
-        <div className="px-4">
+        <div className="pr-2 pl-4">
           {EXPERIENCES.map((experience, index) => {
             return <ExperienceItem key={index} experience={experience} />;
           })}

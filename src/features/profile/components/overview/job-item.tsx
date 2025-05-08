@@ -4,18 +4,21 @@ import {
   LightbulbIcon,
 } from "lucide-react";
 
+import { UTM_PARAMS } from "@/config/site";
+import { addQueryParams } from "@/utils/url";
+
 import { IntroItem } from "./intro-item";
 
 function getJobIcon(title: string) {
   if (/(developer|engineer)/i.test(title)) {
-    return <CodeXmlIcon />;
+    return CodeXmlIcon;
   }
 
   if (/(founder|co-founder)/i.test(title)) {
-    return <LightbulbIcon />;
+    return LightbulbIcon;
   }
 
-  return <BriefcaseBusinessIcon />;
+  return BriefcaseBusinessIcon;
 }
 
 export function JobItem({
@@ -34,10 +37,10 @@ export function JobItem({
         <>
           {title} @
           <a
-            className="ml-0.5"
-            href={website}
+            className="ml-0.5 font-semibold decoration-ring underline-offset-4 hover:underline"
+            href={addQueryParams(website, UTM_PARAMS)}
             target="_blank"
-            rel="noopener noreferrer dofollow"
+            rel="noopener"
           >
             {company}
           </a>

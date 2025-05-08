@@ -1,4 +1,5 @@
 import { MDXRemote, MDXRemoteProps } from "next-mdx-remote/rsc";
+import rehypeExternalLinks from "rehype-external-links";
 import rehypePrettyCode, { LineElement } from "rehype-pretty-code";
 import remarkGfm from "remark-gfm";
 import { visit } from "unist-util-visit";
@@ -15,7 +16,9 @@ import {
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Code } from "@/components/ui/typography";
+import { UTM_PARAMS } from "@/config/site";
 import { cn } from "@/lib/cn";
+import { rehypeAddQueryParams } from "@/lib/rehype-add-query-params";
 import { rehypeComponent } from "@/lib/rehype-component";
 import { rehypeNpmCommand } from "@/lib/rehype-npm-command";
 import { codeImport } from "@/lib/remark-code-import";
@@ -26,9 +29,6 @@ import { CodeTabs } from "./code-tabs";
 import { CopyButton } from "./copy-button";
 
 const components: MDXRemoteProps["components"] = {
-  a: (props: React.ComponentProps<"a">) => (
-    <a {...props} target="_blank" rel="noopener noreferrer" />
-  ),
   table: Table,
   thead: TableHeader,
   tbody: TableBody,
@@ -93,6 +93,15 @@ const components: MDXRemoteProps["components"] = {
   ComponentPreview,
   ComponentSource,
   CodeTabs,
+  Steps: (props) => (
+    <div
+      className="md:ml-3.5 md:border-l md:pl-7.5 prose-h3:text-wrap"
+      {...props}
+    />
+  ),
+  Step: ({ className, ...props }: React.ComponentProps<"h3">) => (
+    <h3 className={cn("step", className)} {...props} />
+  ),
   Tabs,
   TabsList,
   TabsTrigger,
@@ -103,6 +112,10 @@ const options: MDXRemoteProps["options"] = {
   mdxOptions: {
     remarkPlugins: [remarkGfm, codeImport],
     rehypePlugins: [
+      [
+        rehypeExternalLinks,
+        { target: "_blank", rel: "nofollow noopener noreferrer" },
+      ],
       rehypeComponent,
       () => (tree) => {
         visit(tree, (node) => {
@@ -119,7 +132,7 @@ const options: MDXRemoteProps["options"] = {
       [
         rehypePrettyCode,
         {
-          theme: "github-dark",
+          theme: "dracula",
           keepBackground: false,
           onVisitLine(node: LineElement) {
             // Prevent lines from collapsing in `display: grid` mode, and allow empty
@@ -149,6 +162,7 @@ const options: MDXRemoteProps["options"] = {
         });
       },
       rehypeNpmCommand,
+      [rehypeAddQueryParams, UTM_PARAMS],
     ],
   },
 };

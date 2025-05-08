@@ -1,5 +1,6 @@
 import dayjs from "dayjs";
-import { CheckCircleIcon } from "lucide-react";
+import { ArrowUpRightIcon, CheckCircleIcon } from "lucide-react";
+import Image from "next/image";
 import React from "react";
 
 import { cn } from "@/lib/cn";
@@ -14,11 +15,32 @@ export function CertificationItem({
   certification: Certification;
 }) {
   return (
-    <div className={cn("flex items-center", className)}>
-      <CheckCircleIcon className="mx-4 size-5 shrink-0 text-muted-foreground" />
+    <a
+      className={cn("group/cert flex items-center pr-2", className)}
+      href={certification.credentialURL}
+      target="_blank"
+      rel="noopener"
+    >
+      {certification.issuerLogo ? (
+        <Image
+          src={certification.issuerLogo}
+          alt={certification.issuer}
+          width={32}
+          height={32}
+          quality={100}
+          className="mx-4 flex size-6 shrink-0"
+        />
+      ) : (
+        <div
+          className="mx-4 flex size-6 shrink-0 items-center justify-center rounded-lg border bg-zinc-50 text-muted-foreground shadow-xs dark:bg-zinc-900"
+          aria-hidden="true"
+        >
+          <CheckCircleIcon className="size-4" />
+        </div>
+      )}
 
-      <div className="space-y-1 border-l border-grid px-2 py-4">
-        <h3 className="font-heading text-lg leading-snug font-medium text-balance">
+      <div className="flex-1 space-y-1 border-l border-dashed border-edge px-2 py-4">
+        <h3 className="font-heading leading-snug font-medium text-balance decoration-ring underline-offset-4 group-hover/cert:underline">
           {certification.title}
         </h3>
 
@@ -28,9 +50,13 @@ export function CertificationItem({
           </span>
 
           <span className="flex h-4 w-px shrink-0 bg-border" />
-          <span>{dayjs(certification.issueDate).format("YYYY.MM.DD")}</span>
+          <span>{dayjs(certification.issueDate).format("DD.MM.YYYY")}</span>
         </p>
       </div>
-    </div>
+
+      {certification.credentialURL && (
+        <ArrowUpRightIcon className="size-4 text-muted-foreground" />
+      )}
+    </a>
   );
 }

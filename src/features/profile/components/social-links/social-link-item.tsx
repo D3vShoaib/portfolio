@@ -1,4 +1,4 @@
-import { ExternalLinkIcon } from "lucide-react";
+import { ArrowUpRightIcon } from "lucide-react";
 import Image from "next/image";
 
 import { SocialLink } from "@/features/profile/types/social-links";
@@ -14,7 +14,7 @@ export function SocialLinkItem({ icon, title, description, href }: SocialLink) {
       )}
       href={href}
       target="_blank"
-      rel="noopener noreferrer"
+      rel="noopener"
     >
       <div className="relative size-12 shrink-0">
         <Image
@@ -29,7 +29,7 @@ export function SocialLinkItem({ icon, title, description, href }: SocialLink) {
       </div>
 
       <div className="flex-1">
-        <p className="flex items-center font-heading font-medium underline-offset-4 group-hover/social-link:underline">
+        <p className="flex items-center font-heading font-medium decoration-ring underline-offset-4 group-hover/social-link:underline">
           {title}
         </p>
 
@@ -40,7 +40,7 @@ export function SocialLinkItem({ icon, title, description, href }: SocialLink) {
         )}
       </div>
 
-      <ExternalLinkIcon className="size-4 text-muted-foreground" />
+      <ArrowUpRightIcon className="size-4 text-muted-foreground" />
     </a>
   );
 }

@@ -1,8 +1,9 @@
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
 import dayjs from "dayjs";
+import { Accordion as AccordionPrimitive } from "radix-ui";
+
+import { CollapsibleList } from "@/components/collapsible-list";
 
 import { AWARDS } from "../../data/awards";
-import { CollapsibleList } from "../collapsible-list";
 import { Panel, PanelHeader, PanelTitle } from "../panel";
 import { AwardItem } from "./award-item";
 
@@ -12,12 +13,17 @@ const SORTED_AWARDS = [...AWARDS].sort((a, b) => {
 
 export function Awards() {
   return (
-    <Panel id="awards" className="scroll-mt-[4.75rem]">
+    <Panel id="awards" className="scroll-mt-22">
       <PanelHeader>
-        <PanelTitle>Awards</PanelTitle>
+        <PanelTitle>
+          Awards
+          <sup className="ml-1 font-mono text-sm text-muted-foreground select-none">
+            ({AWARDS.length})
+          </sup>
+        </PanelTitle>
       </PanelHeader>
 
-      <AccordionPrimitive.Root type="single" collapsible>
+      <AccordionPrimitive.Root type="multiple">
         <CollapsibleList
           items={SORTED_AWARDS}
           max={3}

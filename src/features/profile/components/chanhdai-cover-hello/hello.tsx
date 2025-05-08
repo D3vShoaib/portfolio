@@ -2,23 +2,28 @@
 
 import { RepeatIcon } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
-import { ChanhDaiWordmark } from "@/components/brand/chanhdai-wordmark";
+import { ChanhDaiMark } from "@/components/chanhdai-mark";
 import { Button } from "@/components/ui/button";
 import { SimpleTooltip } from "@/components/ui/tooltip";
-import { cn } from "@/lib/cn";
-import {
-  AppleHelloEnglishEffect,
-  AppleHelloVietnameseEffect,
-} from "@/registry/apple-hello-effect";
+import { AppleHelloVietnameseEffect } from "@/registry/apple-hello-effect";
 
-const layers = ["xin-chao", "hello", "chanhdai-wordmark"] as const;
+const layers = ["xin-chao", "chanhdai-wordmark"] as const;
 
 export function Hello() {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(1);
 
   const canRestart = currentIndex === layers.length - 1;
+
+  useEffect(() => {
+    const realUser = isRealUser();
+    if (realUser) {
+      setTimeout(() => {
+        setCurrentIndex(0);
+      }, 500);
+    }
+  }, []);
 
   const nextAnimation = useCallback(() => {
     setTimeout(() => {
@@ -28,30 +33,11 @@ export function Hello() {
 
   return (
     <>
-      <div
-        className={cn(
-          "absolute top-1/2 h-16 w-full -translate-y-1/2 border-y border-grid transition-all duration-500 sm:h-20",
-          {
-            "h-10 sm:h-16": ["xin-chao", "hello"].includes(
-              layers[currentIndex]
-            ),
-          }
-        )}
-      />
-
-      <AnimatePresence mode="wait">
+      <AnimatePresence mode="wait" initial={false}>
         <div
           key={`layer-${currentIndex}`}
-          className="relative flex items-center justify-center text-black dark:text-white"
+          className="flex items-center justify-center text-black dark:text-white"
         >
-          <motion.div
-            className="h-full w-px bg-grid"
-            layoutId="layout-grid-left"
-            transition={{
-              duration: 0.5,
-            }}
-          />
-
           {layers[currentIndex] === "xin-chao" && (
             <AppleHelloVietnameseEffect
               className="h-10 sm:h-16"
@@ -60,13 +46,14 @@ export function Hello() {
             />
           )}
 
-          {layers[currentIndex] === "hello" && (
+          {/* {layers[currentIndex] === "hello" && (
             <AppleHelloEnglishEffect
               className="h-10 sm:h-16"
+              speed={0.8}
               exit={{ opacity: 0, scale: 0.8 }}
               onAnimationComplete={nextAnimation}
             />
-          )}
+          )} */}
 
           {layers[currentIndex] === "chanhdai-wordmark" && (
             <motion.div
@@ -75,17 +62,9 @@ export function Hello() {
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.5 }}
             >
-              <ChanhDaiWordmark className="h-16 sm:h-20" />
+              <ChanhDaiMark className="h-12 sm:h-16" />
             </motion.div>
           )}
-
-          <motion.div
-            className="h-full w-px bg-grid"
-            layoutId="layout-grid-right"
-            transition={{
-              duration: 0.5,
-            }}
-          />
         </div>
       </AnimatePresence>
 
@@ -101,9 +80,26 @@ export function Hello() {
             }}
           >
             <RepeatIcon />
+            <span className="sr-only">Restart animation</span>
           </Button>
         </SimpleTooltip>
       </div>
     </>
   );
+}
+
+function isRealUser() {
+  if (navigator.webdriver) {
+    return false;
+  }
+
+  if (!navigator.languages || navigator.languages.length === 0) {
+    return false;
+  }
+
+  if (/HeadlessChrome|Puppeteer|Playwright/i.test(navigator.userAgent)) {
+    return false;
+  }
+
+  return true;
 }

@@ -2,13 +2,13 @@ import { type Registry } from "shadcn/registry";
 
 export const components: Registry["items"] = [
   {
-    name: "switch-theme",
+    name: "theme-switcher",
     type: "registry:component",
     dependencies: ["next-themes", "lucide-react", "motion"],
     registryDependencies: ["https://chanhdai.com/r/cn.json"],
     files: [
       {
-        path: "switch-theme/switch-theme.tsx",
+        path: "theme-switcher/theme-switcher.tsx",
         type: "registry:component",
       },
     ],
@@ -29,7 +29,7 @@ export const components: Registry["items"] = [
     name: "apple-hello-effect",
     type: "registry:component",
     dependencies: ["motion"],
-    registryDependencies: [],
+    registryDependencies: ["https://chanhdai.com/r/cn.json"],
     files: [
       {
         path: "apple-hello-effect/apple-hello-effect.tsx",

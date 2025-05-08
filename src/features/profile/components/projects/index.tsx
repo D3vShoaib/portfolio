@@ -1,21 +1,26 @@
-import * as AccordionPrimitive from "@radix-ui/react-accordion";
+import { Accordion as AccordionPrimitive } from "radix-ui";
+
+import { CollapsibleList } from "@/components/collapsible-list";
 
 import { PROJECTS } from "../../data/projects";
-import { CollapsibleList } from "../collapsible-list";
 import { Panel, PanelHeader, PanelTitle } from "../panel";
 import { ProjectItem } from "./project-item";
 
 export function Projects() {
   return (
-    <Panel id="projects" className="scroll-mt-[4.75rem]">
+    <Panel id="projects" className="scroll-mt-22">
       <PanelHeader>
-        <PanelTitle>Projects</PanelTitle>
+        <PanelTitle>
+          Projects
+          <sup className="ml-1 font-mono text-sm text-muted-foreground select-none">
+            ({PROJECTS.length})
+          </sup>
+        </PanelTitle>
       </PanelHeader>
 
       <AccordionPrimitive.Root
-        type="single"
-        defaultValue="portfolio-website"
-        collapsible
+        type="multiple"
+        defaultValue={["portfolio-website", "zadark"]}
       >
         <CollapsibleList
           items={PROJECTS}

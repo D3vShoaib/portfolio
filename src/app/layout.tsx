@@ -1,12 +1,22 @@
 import "@/styles/globals.css";
 
-import clsx from "clsx";
 import { Metadata, Viewport } from "next";
+import { WebSite, WithContext } from "schema-dts";
 
 import { Providers } from "@/components/providers";
 import { META_THEME_COLORS, SITE_INFO } from "@/config/site";
-import { USER } from "@/features/profile/data/user";
+import { USER } from "@/data/user";
 import { fontMono, fontSans } from "@/lib/fonts";
+
+function getWebSiteJsonLd(): WithContext<WebSite> {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    name: SITE_INFO.name,
+    url: SITE_INFO.url,
+    alternateName: [USER.username],
+  };
+}
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_INFO.url),
@@ -15,7 +25,7 @@ export const metadata: Metadata = {
   },
   title: {
     template: `%s | ${SITE_INFO.name}`,
-    default: `${USER.displayName} – ${USER.jobTitle}`,
+    default: `${USER.displayName} - ${USER.jobTitle}`,
   },
   description: SITE_INFO.description,
   keywords: SITE_INFO.keywords,
@@ -82,10 +92,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={clsx(fontSans.variable, fontMono.variable)}
+      className={`${fontSans.variable} ${fontMono.variable}`}
       suppressHydrationWarning
     >
       <head>
+        {/* Thanks @shadcn-ui */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -97,6 +108,9 @@ export default function RootLayout({
             `,
           }}
         />
+        <script type="application/ld+json">
+          {JSON.stringify(getWebSiteJsonLd())}
+        </script>
       </head>
 
       <body>

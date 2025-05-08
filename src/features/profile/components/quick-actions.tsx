@@ -1,26 +1,26 @@
-import he from "he";
+"use client";
+
 import { CircleUserIcon, SendIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { USER } from "@/data/user";
+import { useIsClient } from "@/hooks/use-is-client";
+import { decodeEmail } from "@/utils/string";
 
-export function QuickActions({
-  emailEncoded,
-  vCardLink,
-}: {
-  emailEncoded: string;
-  vCardLink: string;
-}) {
+export function QuickActions() {
+  const isClient = useIsClient();
+
   return (
     <>
       <div className="h-14" />
 
       <div className="fixed inset-x-0 bottom-0 z-50 bg-background pb-[calc(0.5rem+env(safe-area-inset-bottom,0px))]">
-        <div className="screen-line-before">
+        <div className="screen-line-before before:z-1">
           <div className="mx-auto px-4 md:max-w-3xl">
-            <div className="border-x border-grid pt-2">
+            <div className="border-x border-edge pt-2">
               <div className="screen-line-before screen-line-after -mx-px grid grid-cols-2 gap-4">
                 <Button size="lg" asChild>
-                  <a href={vCardLink} target="_blank" rel="noopener noreferrer">
+                  <a href="/vcard" target="_blank" rel="noopener noreferrer">
                     <CircleUserIcon />
                     <span>Save vCard</span>
                   </a>
@@ -28,7 +28,7 @@ export function QuickActions({
 
                 <Button size="lg" asChild>
                   <a
-                    href={`mailto:${he.decode(emailEncoded)}`}
+                    href={isClient ? `mailto:${decodeEmail(USER.email)}` : "#"}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

@@ -1,21 +1,15 @@
 import { LinkIcon, MapPinIcon } from "lucide-react";
 
+import { USER } from "@/data/user";
 import { urlToName } from "@/utils/url";
 
-import { USER } from "../../data/user";
 import { Panel, PanelContent } from "../panel";
 import { EmailItem } from "./email-item";
 import { IntroItem } from "./intro-item";
 import { JobItem } from "./job-item";
 import { PhoneItem } from "./phone-item";
 
-export function Overview({
-  phoneEncoded,
-  emailEncoded,
-}: {
-  phoneEncoded: string;
-  emailEncoded: string;
-}) {
+export function Overview() {
   return (
     <Panel>
       <h2 className="sr-only">Overview</h2>
@@ -32,14 +26,14 @@ export function Overview({
           );
         })}
 
-        <IntroItem icon={<MapPinIcon />} content={USER.address} />
+        <IntroItem icon={MapPinIcon} content={USER.address} />
 
-        <PhoneItem phoneEncoded={phoneEncoded} />
+        <PhoneItem phoneNumber={USER.phoneNumber} />
 
-        <EmailItem emailEncoded={emailEncoded} />
+        <EmailItem email={USER.email} />
 
         <IntroItem
-          icon={<LinkIcon />}
+          icon={LinkIcon}
           content={urlToName(USER.website)}
           href={USER.website}
         />

@@ -1,30 +1,29 @@
 import Link from "next/link";
 
-import { ChanhDaiWordmark } from "@/components/brand/chanhdai-wordmark";
+import { ChanhDaiMark } from "@/components/chanhdai-mark";
+import { Footer } from "@/components/footer";
+import { NavItemGitHub } from "@/components/nav-item-github";
+import { NavItemRSS } from "@/components/nav-item-rss";
 import { ScrollTop } from "@/components/scroll-top";
 import { ToggleTheme } from "@/components/toggle-theme";
-import { Footer } from "@/features/profile/components/footer";
-import { NavItemGitHub } from "@/features/profile/components/nav/nav-item-github";
-import { NavItemRSS } from "@/features/profile/components/nav/nav-item-rss";
 import { cn } from "@/lib/cn";
+
+import { StickyHeader } from "./sticky-header";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
+      <StickyHeader />
+
       <div className="max-w-screen overflow-x-hidden">
         <div className="mx-auto px-4 md:max-w-3xl">
-          <div className="relative mt-2 min-h-[calc(100vh-0.5rem)] border-x border-grid">
-            <div
-              className={cn(
-                "screen-line-before screen-line-after flex items-start justify-between",
-                "bg-zinc-950/0.75 bg-[image:radial-gradient(var(--pattern-foreground)_1px,_transparent_0)] bg-[size:8px_8px] [--pattern-foreground:var(--color-zinc-950)]/5 sm:bg-[size:10px_10px] dark:bg-white/0.75 dark:[--pattern-foreground:var(--color-white)]/5"
-              )}
-            >
-              <Link href="/" className="-translate-x-px">
-                <ChanhDaiWordmark className="h-16" />
+          <div className="mt-2 min-h-[calc(100vh-0.5rem)] border-x border-edge">
+            <div className="screen-line-before screen-line-after flex h-12 items-center justify-between px-2">
+              <Link href="/" aria-label="Home">
+                <ChanhDaiMark className="h-8" />
               </Link>
 
-              <div className="flex translate-x-px items-center gap-2 ring ring-grid ring-inset">
+              <div className="flex items-center gap-2">
                 <NavItemRSS />
                 <NavItemGitHub />
                 <ToggleTheme />
@@ -33,10 +32,10 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
             <div
               className={cn(
-                "h-12 px-2",
+                "h-8 px-2",
                 "screen-line-after",
                 "before:absolute before:-left-[100vw] before:-z-1 before:h-full before:w-[200vw]",
-                "before:bg-[image:repeating-linear-gradient(315deg,_var(--pattern-foreground)_0,_var(--pattern-foreground)_1px,_transparent_0,_transparent_50%)] before:bg-[size:10px_10px] before:[--pattern-foreground:var(--color-black)]/5 dark:before:[--pattern-foreground:var(--color-white)]/5"
+                "before:bg-[image:repeating-linear-gradient(315deg,var(--pattern-foreground)_0,var(--pattern-foreground)_1px,transparent_0,transparent_50%)] before:bg-[size:10px_10px] before:[--pattern-foreground:var(--color-edge)]/56"
               )}
             />
 
